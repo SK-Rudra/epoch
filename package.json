@@ -9,6 +9,7 @@
     "lint": "eslint",
     "test": "vitest run",
     "seed": "tsx --env-file=.env.local scripts/seed.ts",
+    "set-password": "tsx --env-file=.env.local scripts/set-password.ts",
     "typecheck": "next typegen && tsc --noEmit"
   },
   "dependencies": {

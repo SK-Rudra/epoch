@@ -1,6 +1,6 @@
 # Epoch — private personal development tracker
 Stack: Next.js (App Router) + TypeScript + Tailwind, Supabase (Postgres, Auth, RLS), Vercel.
-Single user only. Magic-link login restricted to ALLOWED_EMAIL. RLS on every table.
+Single user only. Email + password login restricted to ALLOWED_EMAIL. RLS on every table.
 Rules:
 - Work one step at a time; stop and wait after each step.
 - Explain what you changed and why in simple words (I am learning).

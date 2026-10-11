@@ -35,13 +35,12 @@ export async function proxy(request: NextRequest) {
   };
 
   const path = request.nextUrl.pathname;
-  const isPublic = path === "/login" || path.startsWith("/auth/");
 
   if (user && !isAllowedEmail(user.email)) {
     await supabase.auth.signOut();
     return redirectTo("/login");
   }
-  if (!user && !isPublic) return redirectTo("/login");
+  if (!user && path !== "/login") return redirectTo("/login");
   if (user && path === "/login") return redirectTo("/");
 
   return response;

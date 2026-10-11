@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Suspense } from "react";
 import { LoginForm } from "./login-form";
 
 export const metadata: Metadata = { title: "Sign in" };
@@ -11,9 +10,7 @@ export default function LoginPage() {
         <h1 className="text-3xl font-bold">Epoch</h1>
         <p className="text-muted">Train yourself. One epoch at a time.</p>
       </div>
-      <Suspense>
-        <LoginForm />
-      </Suspense>
+      <LoginForm />
     </main>
   );
 }

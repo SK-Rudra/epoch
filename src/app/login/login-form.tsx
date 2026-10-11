@@ -1,40 +1,32 @@
 "use client";
 
 import { useActionState } from "react";
-import { useSearchParams } from "next/navigation";
-import { sendMagicLink, type LoginState } from "./actions";
+import { signIn, type LoginState } from "./actions";
+
+const input = "rounded-lg border border-line bg-transparent px-3 py-2";
 
 export function LoginForm() {
-  const [state, action, pending] = useActionState<LoginState, FormData>(sendMagicLink, {});
-  const params = useSearchParams();
-  const linkFailed = params.get("error") === "link";
-
-  if (params.get("sent") === "1") {
-    return <p className="rounded-lg border border-line p-4">Check your inbox for the sign-in link.</p>;
-  }
+  const [state, action, pending] = useActionState<LoginState, FormData>(signIn, {});
 
   return (
     <form action={action} className="flex flex-col gap-3">
       <label htmlFor="email" className="text-sm text-muted">
         Email
       </label>
-      <input
-        id="email"
-        name="email"
-        type="email"
-        required
-        autoComplete="email"
-        className="rounded-lg border border-line bg-transparent px-3 py-2"
-      />
+      <input id="email" name="email" type="email" required autoComplete="email" className={input} />
+      <label htmlFor="password" className="text-sm text-muted">
+        Password
+      </label>
+      <input id="password" name="password" type="password" required autoComplete="current-password" className={input} />
       <button
         disabled={pending}
         className="rounded-lg bg-foreground px-3 py-2 font-medium text-background disabled:opacity-60"
       >
-        {pending ? "Sending…" : "Send magic link"}
+        {pending ? "Signing in…" : "Sign in"}
       </button>
-      {(state.error || linkFailed) && (
+      {state.error && (
         <p role="alert" className="text-sm text-red-500">
-          {state.error ?? "That sign-in link is invalid or expired. Request a new one."}
+          {state.error}
         </p>
       )}
     </form>

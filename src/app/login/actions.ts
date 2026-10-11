@@ -7,27 +7,22 @@ import { createClient } from "@/lib/supabase/server";
 
 export type LoginState = { error?: string };
 
-const schema = z.object({ email: z.email() });
+const schema = z.object({ email: z.email(), password: z.string().min(1).max(200) });
 
-export async function sendMagicLink(_prev: LoginState, formData: FormData): Promise<LoginState> {
-  const parsed = schema.safeParse({ email: formData.get("email") });
-  if (!parsed.success) return { error: "Enter a valid email address." };
+// Same message for every failure, so the page never reveals which part was wrong.
+const WRONG = { error: "Wrong email or password." };
+
+export async function signIn(_prev: LoginState, formData: FormData): Promise<LoginState> {
+  const parsed = schema.safeParse({ email: formData.get("email"), password: formData.get("password") });
+  if (!parsed.success) return WRONG;
 
   // The real gate: checked on the server, so editing the page can't bypass it.
-  if (!isAllowedEmail(parsed.data.email)) return { error: "This email is not allowed to sign in." };
+  if (!isAllowedEmail(parsed.data.email)) return WRONG;
 
   const supabase = await createClient();
-  const { error } = await supabase.auth.signInWithOtp({
-    email: parsed.data.email,
-    options: {
-      shouldCreateUser: false, // the only account is created by the seed script
-      emailRedirectTo: `${process.env.SITE_URL}/auth/callback`,
-    },
-  });
-  if (error) return { error: `Could not send the link: ${error.message}` };
-  // Not `return { sent: true }`: Supabase sets a cookie here, which makes Next.js re-render
-  // the page and drop that state. The URL survives the re-render.
-  redirect("/login?sent=1");
+  const { error } = await supabase.auth.signInWithPassword(parsed.data);
+  if (error) return error.status === 429 ? { error: "Too many tries. Wait a few minutes." } : WRONG;
+  redirect("/");
 }
 
 export async function signOut() {
