@@ -1,0 +1,30 @@
+{
+  "phases": [
+    {
+      "number": 1,
+      "title": "Foundations",
+      "role_name": "Junior Developer",
+      "start_date": "2026-10-01",
+      "end_date": "2026-12-31",
+      "summary": "Core CS, one language deeply, Git.",
+      "skills": [
+        { "main_skill": "TypeScript", "sub_skills": "types, generics, narrowing" }
+      ],
+      "courses": [
+        { "name": "CS50", "provider": "Harvard", "url": "https://cs50.harvard.edu", "time_slot": "Thu 14:00" }
+      ],
+      "projects": [
+        {
+          "rank": 1,
+          "name": "Epoch",
+          "problem_solved": "Track my own progress",
+          "stack": "Next.js, Supabase",
+          "live_url": "",
+          "repo_url": "",
+          "notes": ""
+        }
+      ],
+      "goals": ["Solve 50 LeetCode problems"]
+    }
+  ]
+}
