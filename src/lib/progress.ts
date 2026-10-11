@@ -44,3 +44,8 @@ export function currentPhase<T extends { start_date: string }>(phases: T[], toda
   const sorted = [...phases].sort((a, b) => a.start_date.localeCompare(b.start_date));
   return sorted.findLast((p) => p.start_date <= today) ?? sorted[0];
 }
+
+/** Tapping a status chip cycles: not started → in progress → done → not started. */
+export function nextStatus(s: Status): Status {
+  return s === "not_started" ? "in_progress" : s === "in_progress" ? "done" : "not_started";
+}

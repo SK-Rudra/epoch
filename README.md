@@ -8,7 +8,7 @@ Private, single-user personal development tracker. Next.js 16 (App Router) + Sup
 
 ### 1. Create the Supabase project (one time)
 1. Create a free project at <https://supabase.com/dashboard>.
-2. **SQL Editor** → paste all of `supabase/migrations/0001_init.sql` → Run.
+2. **SQL Editor** → paste all of `supabase/migrations/0001_init.sql` → Run. Then do the same with `0002_schedule.sql`.
 3. **Authentication → Sign In / Providers → Email**: keep Email enabled, and turn **off** "Allow new users to sign up".
 4. **Authentication → URL Configuration**: Site URL `http://localhost:3000`, and add `http://localhost:3000/auth/callback` to Redirect URLs.
 
@@ -20,11 +20,10 @@ Fill in from **Project Settings → API**: the project URL, the `anon` key, the 
 
 ### 3. Seed your roadmap
 ```bash
-cp seed/roadmap.example.json seed/roadmap.json   # then put your real roadmap in it
 npm install
 npm run seed
 ```
-The seed also creates your (only) login account. Re-running it is safe: it updates rows in place and never resets statuses or checked goals.
+The seed also creates your (only) login account. Re-running it is safe: it updates rows in place and never resets statuses, checked goals, or project links/notes you added in the app. Your roadmap lives in `data/roadmap-seed.json`; edit it and re-run to update titles, dates, skills, etc.
 
 ### 4. Start
 ```bash
@@ -38,7 +37,7 @@ Open <http://localhost:3000> → you're sent to `/login` → enter your email �
 | `npm run dev` | Dev server |
 | `npm test` | Vitest |
 | `npm run typecheck` | Generate Next route types + `tsc` |
-| `npm run seed` | Load `seed/roadmap.json` (or `npm run seed -- path/to/file.json`) |
+| `npm run seed` | Load `data/roadmap-seed.json` (phases + schedule) (or `npm run seed -- path/to/file.json`) |
 
 ## How privacy works
 - **Server-side allowlist**: the login server action rejects any email that isn't `ALLOWED_EMAIL`; `shouldCreateUser: false` plus disabled sign-ups means no other account can exist.
