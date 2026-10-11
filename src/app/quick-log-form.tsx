@@ -5,7 +5,7 @@ import { saveTodayLog, type LogState } from "./actions";
 
 type Log = { study_hours: number | string; leetcode_solved: number; ielts_minutes: number; workout: boolean; note: string };
 
-const input = "w-full rounded-lg border border-line bg-transparent px-3 py-2";
+const input = "w-full rounded-lg border border-line bg-transparent px-3 py-2 text-foreground";
 
 // Pre-filled with today's row (if any), so saving again edits it.
 export function QuickLogForm({ today }: { today?: Log }) {

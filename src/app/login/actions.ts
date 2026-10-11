@@ -5,7 +5,7 @@ import { z } from "zod";
 import { isAllowedEmail } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
 
-export type LoginState = { sent?: boolean; error?: string };
+export type LoginState = { error?: string };
 
 const schema = z.object({ email: z.email() });
 
@@ -25,7 +25,9 @@ export async function sendMagicLink(_prev: LoginState, formData: FormData): Prom
     },
   });
   if (error) return { error: `Could not send the link: ${error.message}` };
-  return { sent: true };
+  // Not `return { sent: true }`: Supabase sets a cookie here, which makes Next.js re-render
+  // the page and drop that state. The URL survives the re-render.
+  redirect("/login?sent=1");
 }
 
 export async function signOut() {

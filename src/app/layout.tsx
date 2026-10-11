@@ -26,11 +26,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col font-sans">
-        <header className="flex items-center gap-4 border-b border-line px-4 py-3">
-          <Link href="/" className="font-bold">Epoch</Link>
-          <Link href="/activity" className="text-sm text-muted">Activity</Link>
-          <Link href="/schedule" className="text-sm text-muted">Schedule</Link>
-          <Link href="/reviews" className="text-sm text-muted">Review</Link>
+        {/* Padding is on the links, not the header, so the whole bar height is tappable (~44px). */}
+        <header className="flex items-center gap-4 border-b border-line px-4">
+          <Link href="/" className="py-3 font-bold">Epoch</Link>
+          <Link href="/activity" className="py-3 text-sm text-muted">Activity</Link>
+          <Link href="/schedule" className="py-3 text-sm text-muted">Schedule</Link>
+          <Link href="/reviews" className="py-3 text-sm text-muted">Review</Link>
         </header>
         {children}
       </body>

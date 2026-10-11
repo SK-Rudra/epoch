@@ -5,7 +5,7 @@ import { saveReview, type ReviewState } from "./actions";
 
 export type Review = { week_start: string; wins: string; blockers: string; next_week_priorities: string[]; mood: number };
 
-const input = "w-full rounded-lg border border-line bg-transparent px-3 py-2";
+const input = "w-full rounded-lg border border-line bg-transparent px-3 py-2 text-foreground";
 const moods = ["Rough", "Meh", "Okay", "Good", "Great"];
 
 // Pre-filled with this week's review (if any), so saving again edits it.
@@ -25,7 +25,7 @@ export function ReviewForm({ week, review }: { week: string; review?: Review }) 
         <legend className="mb-1">Top 3 priorities for next week</legend>
         {[0, 1, 2].map((i) => (
           <input key={i} name="priority" maxLength={200} aria-label={`Priority ${i + 1}`} placeholder={`${i + 1}.`}
-            defaultValue={review?.next_week_priorities[i] ?? ""} className={`${input} text-foreground`} />
+            defaultValue={review?.next_week_priorities[i] ?? ""} className={input} />
         ))}
       </fieldset>
       <fieldset className="flex flex-col gap-2 text-sm text-muted">
