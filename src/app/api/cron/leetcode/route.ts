@@ -13,6 +13,8 @@ export async function GET(request: Request) {
 
   const admin = createAdminClient();
   const result = await syncLeetcode(admin, await allowedUserId(admin));
+  // Shows up in Vercel → Logs, so a failed run says why without having to press "Sync now".
+  if (!result.ok) console.error(`LeetCode cron failed: ${result.error}`);
   return Response.json(result, { status: result.ok ? 200 : result.retryInMinutes ? 429 : 502 });
 }
 
