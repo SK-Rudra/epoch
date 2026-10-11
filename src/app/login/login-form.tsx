@@ -6,9 +6,10 @@ import { sendMagicLink, type LoginState } from "./actions";
 
 export function LoginForm() {
   const [state, action, pending] = useActionState<LoginState, FormData>(sendMagicLink, {});
-  const linkFailed = useSearchParams().get("error") === "link";
+  const params = useSearchParams();
+  const linkFailed = params.get("error") === "link";
 
-  if (state.sent) {
+  if (params.get("sent") === "1") {
     return <p className="rounded-lg border border-line p-4">Check your inbox for the sign-in link.</p>;
   }
 
