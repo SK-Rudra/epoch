@@ -1,33 +1,102 @@
 @import "tailwindcss";
 
+/* next-themes puts class="dark" on <html>, so `dark:` follows that instead of the OS setting. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/*
+ * Six colour tokens. Light = grid-paper notebook, dark = blueprint at night.
+ * Dark is designed separately (lifted accent, quieter grid), not an inversion.
+ * grid is decorative only (~1.3:1); anything you must see to use a control gets graphite.
+ */
 :root {
-  /* Lets the browser draw inputs, checkboxes and scrollbars in the matching theme. */
-  color-scheme: light dark;
-  --background: #ffffff;
-  --foreground: #171717;
-  --muted: #6b7280;
-  --line: #e5e7eb;
+  --paper: #f4f5f7;
+  --ink: #161a26;
+  --graphite: #5c6376;
+  --grid: #d8dce5;
+  --plot: #2645cf;
+  --fault: #b3232c;
+  /* Inputs and dialogs: a touch lighter than the page in light mode... */
+  --raised: color-mix(in oklch, white 60%, var(--paper));
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-    --muted: #9ca3af;
-    --line: #27272a;
-  }
+.dark {
+  --paper: #0f1320;
+  --ink: #e4e7ef;
+  --graphite: #8d94a8;
+  --grid: #252b3c;
+  --plot: #7a93ff;
+  --fault: #ff6b6b;
+  /* ...and a touch lighter (towards ink) in dark mode. Derived, so still six real colours. */
+  --raised: color-mix(in oklch, var(--ink) 5%, var(--paper));
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-muted: var(--muted);
-  --color-line: var(--line);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-paper: var(--paper);
+  --color-ink: var(--ink);
+  --color-graphite: var(--graphite);
+  --color-grid: var(--grid);
+  --color-plot: var(--plot);
+  --color-fault: var(--fault);
+  --color-raised: var(--raised);
+
+  --font-sans: var(--font-plex-sans);
+  --font-mono: var(--font-plex-mono);
+  --font-display: var(--font-archivo);
+
+  /* 1.25 scale. Body stays 16px: iPhones zoom into inputs smaller than that. */
+  --text-xs: 0.8125rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.4375rem;
+  --text-2xl: 1.8125rem;
+  --text-3xl: 2.25rem;
+
+  --ease-settle: cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
+/* The display face: Archivo stretched wide. Used by headings and the wordmark. */
+@utility font-wide {
+  font-family: var(--font-display);
+  font-variation-settings: "wdth" 118;
+  font-weight: 750;
+  letter-spacing: -0.01em;
+}
+
+@layer base {
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.5;
+    /* Every digit the same width, so numbers line up and counters don't wobble. */
+    font-variant-numeric: tabular-nums;
+  }
+
+  h1,
+  h2 {
+    @apply font-wide;
+    line-height: 1.1;
+  }
+
+  ::selection {
+    background: color-mix(in oklch, var(--plot) 28%, var(--paper));
+  }
+
+  /* One focus style for everything: only shows for keyboard users. */
+  :focus-visible {
+    outline: 2px solid var(--plot);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

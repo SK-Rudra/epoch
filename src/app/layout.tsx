@@ -1,39 +1,45 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import Link from "next/link";
+import type { Metadata, Viewport } from "next";
+import { Archivo, IBM_Plex_Mono, IBM_Plex_Sans } from "next/font/google";
+import { Providers } from "@/components/theme";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+// Headings: Archivo, stretched wide via its width axis (set in globals.css).
+const archivo = Archivo({ variable: "--font-archivo", subsets: ["latin"], axes: ["wdth"] });
+const plexSans = IBM_Plex_Sans({ variable: "--font-plex-sans", subsets: ["latin"] });
+// Numbers, logs and the run clock.
+const plexMono = IBM_Plex_Mono({ variable: "--font-plex-mono", subsets: ["latin"], weight: ["400", "500"] });
 
 export const metadata: Metadata = {
   title: { default: "Epoch", template: "%s · Epoch" },
   description: "Train yourself. One epoch at a time.",
   robots: { index: false, follow: false },
+  // Tab icon (app/icon.svg) and iOS home-screen icon. Both listed: setting `icons` turns off the automatic link.
+  icons: { icon: { url: "/icon.svg", type: "image/svg+xml" }, apple: "/icons/apple-180.png" },
+  appleWebApp: { capable: true, title: "Epoch" },
 };
 
+export const viewport: Viewport = {
+  // Lets the page draw under the iPhone home indicator; the bottom tab bar pads itself with safe-area insets.
+  viewportFit: "cover",
+  // Phone status bar colour = the page's paper colour.
+  // ponytail: follows the OS setting, not the in-app toggle; sync it from ThemeToggle if that mismatch bothers you.
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#f4f5f7" },
+    { media: "(prefers-color-scheme: dark)", color: "#0f1320" },
+  ],
+};
+
+// The top bar lives in (app)/layout.tsx, so the login page doesn't get it.
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
+    // suppressHydrationWarning: next-themes sets class="dark" before React loads, which React would otherwise flag.
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      suppressHydrationWarning
+      className={`${archivo.variable} ${plexSans.variable} ${plexMono.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col font-sans">
-        {/* Padding is on the links, not the header, so the whole bar height is tappable (~44px). */}
-        <header className="flex items-center gap-4 border-b border-line px-4">
-          <Link href="/" className="py-3 font-bold">Epoch</Link>
-          <Link href="/activity" className="py-3 text-sm text-muted">Activity</Link>
-          <Link href="/schedule" className="py-3 text-sm text-muted">Schedule</Link>
-          <Link href="/reviews" className="py-3 text-sm text-muted">Review</Link>
-        </header>
-        {children}
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

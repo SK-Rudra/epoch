@@ -20,6 +20,11 @@ export function addDays(date: string, days: number): string {
   return d.toISOString().slice(0, 10);
 }
 
+/** Whole days from a to b (negative if b is earlier). */
+export function daysBetween(a: string, b: string): number {
+  return Math.round((Date.parse(`${b}T00:00:00Z`) - Date.parse(`${a}T00:00:00Z`)) / 86_400_000);
+}
+
 /** The Sunday that starts this date's week. */
 export function weekStart(date: string): string {
   return addDays(date, -new Date(`${date}T00:00:00Z`).getUTCDay());

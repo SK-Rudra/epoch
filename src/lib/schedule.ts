@@ -1,4 +1,7 @@
 import { z } from "zod";
+import { blockState } from "./time";
+
+export type { BlockState } from "./time";
 
 const Day = z.enum(["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]);
 export const DAYS = Day.options; // Sun→Sat, same order as Date.getUTCDay()
@@ -16,8 +19,6 @@ export const Schedule = z.object({
 });
 export type Schedule = z.infer<typeof Schedule>;
 
-export type BlockState = "past" | "now" | "upcoming";
-
 /** Today's plan: which kind of day `date` is and where `time` ("HH:MM") falls in its blocks. */
 export function dayPlan(s: Schedule, date: string, time: string) {
   const day = DAYS[new Date(`${date}T00:00:00Z`).getUTCDay()];
@@ -26,9 +27,6 @@ export function dayPlan(s: Schedule, date: string, time: string) {
   return {
     day,
     kind,
-    blocks: blocks.map((b) => ({
-      ...b,
-      state: (time >= b.end ? "past" : time >= b.start ? "now" : "upcoming") as BlockState,
-    })),
+    blocks: blocks.map((b) => ({ ...b, state: blockState(b, time) })),
   };
 }
