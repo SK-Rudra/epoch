@@ -1,10 +1,13 @@
-// Loads seed/roadmap.json into Supabase for ALLOWED_EMAIL's account.
+// Loads data/roadmap-seed.json (phases + schedule) into Supabase for ALLOWED_EMAIL's account.
 // Safe to re-run: rows are matched on their unique keys and updated, never duplicated.
-// Progress (status / done) is never overwritten, so re-seeding won't reset your work.
+// New rows start as status 'not_started' / done = false (the column defaults). Progress
+// (status / done) and app-only fields (live_url, repo_url, notes) are never sent, so
+// re-seeding never resets your work.
 // Uses the service role key, so this file must never be imported by the app.
 import { readFileSync } from "node:fs";
 import { createClient } from "@supabase/supabase-js";
 import { z } from "zod";
+import { Schedule } from "../src/lib/schedule";
 
 const text = z.string().default("");
 const Roadmap = z.object({
@@ -28,9 +31,6 @@ const Roadmap = z.object({
               name: z.string().min(1),
               problem_solved: text,
               stack: text,
-              live_url: text,
-              repo_url: text,
-              notes: text,
             }),
           )
           .default([]),
@@ -38,6 +38,7 @@ const Roadmap = z.object({
       }),
     )
     .max(6),
+  schedule: Schedule,
 });
 
 const env = z
@@ -48,12 +49,12 @@ const env = z
   })
   .parse(process.env);
 
-const path = process.argv[2] ?? "seed/roadmap.json";
+const path = process.argv[2] ?? "data/roadmap-seed.json";
 let raw: string;
 try {
   raw = readFileSync(path, "utf8");
 } catch {
-  throw new Error(`${path} not found. Copy seed/roadmap.example.json to ${path} and fill it in.`);
+  throw new Error(`${path} not found. Pass the path to your roadmap JSON: npm run seed -- path/to/file.json`);
 }
 const roadmap = Roadmap.parse(JSON.parse(raw));
 
@@ -106,6 +107,9 @@ async function main() {
       `Phase ${phase.number}: ${skills.length} skills, ${courses.length} courses, ${projects.length} projects, ${goals.length} goals`,
     );
   }
+
+  check(await db.from("schedule").upsert({ user_id: userId, data: roadmap.schedule }), "schedule");
+  console.log(`Schedule: ${roadmap.schedule.class_day_blocks.length} class-day + ${roadmap.schedule.off_day_blocks.length} off-day blocks`);
   console.log("Seed complete.");
 }
 

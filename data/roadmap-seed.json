@@ -1,0 +1,231 @@
+{
+  "app": "Epoch",
+  "timezone": "Asia/Dhaka",
+  "targets": { "leetcode_total": 200, "ielts_overall": 7.0 },
+  "phases": [
+    {
+      "number": 1,
+      "title": "Python Developer & Problem Solver",
+      "role_name": "Python Developer",
+      "start_date": "2026-10-01",
+      "end_date": "2026-11-30",
+      "summary": "Write clean, tested Python, solve easy array and string problems without hints, and query data with SQL.",
+      "skills": [
+        { "main_skill": "Python for engineering", "sub_skills": "OOP, type hints, virtual envs, file I/O, regex, error handling, packaging a module" },
+        { "main_skill": "DSA foundations", "sub_skills": "Arrays, strings, hashing, two pointers, sliding window, stack, binary search, linked list" },
+        { "main_skill": "SQL", "sub_skills": "SELECT/WHERE, JOINs, GROUP BY/HAVING, subqueries, window functions, indexes" },
+        { "main_skill": "Developer tools", "sub_skills": "Git branches and PRs, Linux shell, debugger in VS Code" },
+        { "main_skill": "Testing", "sub_skills": "pytest, unit tests, GitHub Actions CI" }
+      ],
+      "courses": [
+        { "name": "NeetCode 150 roadmap: Arrays to Linked List", "provider": "neetcode.io", "url": "https://neetcode.io/roadmap", "time_slot": "Class-day DSA hour" },
+        { "name": "SQL 50 study plan", "provider": "LeetCode", "url": "https://leetcode.com/studyplan/top-sql-50/", "time_slot": "Off-day course block, weeks 1-4" },
+        { "name": "The Missing Semester (shell, Git, debugging)", "provider": "MIT", "url": "https://missing.csail.mit.edu/", "time_slot": "Off-day course block, weeks 5-8" }
+      ],
+      "projects": [
+        { "rank": 1, "name": "bKash/Nagad SMS Expense Tracker", "problem_solved": "People cannot see where their mobile money goes; parse SMS into a categorized monthly ledger", "stack": "Python, regex, SQLite, CLI" },
+        { "rank": 2, "name": "Bangla Text Normalizer (pip package)", "problem_solved": "Bangla web text mixes Unicode forms, digits and punctuation; every Bangla NLP pipeline needs cleaning", "stack": "Python, unicodedata, pytest, PyPI" },
+        { "rank": 3, "name": "EverDear hardening", "problem_solved": "Turn an existing app into interview proof", "stack": "Tests, GitHub Actions, README with architecture" },
+        { "rank": 4, "name": "BRACU Routine Clash Checker", "problem_solved": "Students waste hours finding non-clashing sections", "stack": "Python, interval scheduling, simple web UI" }
+      ],
+      "goals": [
+        "60 LeetCode problems logged (problem, pattern, mistake)",
+        "30 SQL problems",
+        "Thesis P1 submitted",
+        "ChhayaPath poster presented at the Research Expo",
+        "Workout 4 days a week for 8 weeks"
+      ]
+    },
+    {
+      "number": 2,
+      "title": "Backend Developer",
+      "role_name": "Backend Developer",
+      "start_date": "2026-12-01",
+      "end_date": "2027-01-31",
+      "summary": "Design, test, containerize and deploy a production-style API.",
+      "skills": [
+        { "main_skill": "Backend APIs", "sub_skills": "FastAPI routing, Pydantic validation, async I/O, REST design, JWT auth, rate limiting" },
+        { "main_skill": "Databases", "sub_skills": "PostgreSQL schema design, SQLAlchemy ORM, Alembic migrations, indexes, transactions" },
+        { "main_skill": "DSA core", "sub_skills": "Trees, BST, heaps, recursion, backtracking, BFS/DFS, Dijkstra, intervals" },
+        { "main_skill": "DevOps basics", "sub_skills": "Docker, docker-compose, environment config, logging, deploy to Render or Railway" },
+        { "main_skill": "CS fundamentals", "sub_skills": "OOP design principles, DBMS normalization, HTTP and networking basics" }
+      ],
+      "courses": [
+        { "name": "FastAPI Tutorial - User Guide", "provider": "fastapi.tiangolo.com", "url": "https://fastapi.tiangolo.com/tutorial/", "time_slot": "Off-day course block, weeks 1-4" },
+        { "name": "Docker Get started guide", "provider": "docs.docker.com", "url": "https://docs.docker.com/get-started/", "time_slot": "Off-day course block, weeks 5-6" },
+        { "name": "NeetCode 150: Trees to Graphs", "provider": "neetcode.io", "url": "https://neetcode.io/roadmap", "time_slot": "Class-day DSA hour" }
+      ],
+      "projects": [
+        { "rank": 1, "name": "ChhayaPath API", "problem_solved": "Dhaka pedestrians walk in dangerous heat; returns the most shaded route for a given time", "stack": "FastAPI, OpenStreetMap graph, sun-position math, Dijkstra, Docker" },
+        { "rank": 2, "name": "Bangla PII Redactor v0 API", "problem_solved": "Rules-based redaction of phone, NID, bKash and email data in Bangla text; baseline for the thesis model", "stack": "FastAPI, regex, auth, rate limits, pytest" },
+        { "rank": 3, "name": "Job Application Tracker backend", "problem_solved": "Track 60+ applications in Phase 6: stage, contacts, follow-up reminders", "stack": "FastAPI, PostgreSQL, JWT, cron jobs" },
+        { "rank": 4, "name": "URL shortener with analytics", "problem_solved": "Classic system-design interview question built for real: caching, unique IDs, click stats", "stack": "FastAPI, Redis, PostgreSQL" }
+      ],
+      "goals": [
+        "120 LeetCode problems total, first 30 mediums",
+        "Two APIs live, Dockerized, with tests",
+        "Retakes (CSE340, CSE350): no missed classes, all assignments in",
+        "LinkedIn rebuilt: headline, About, featured projects",
+        "GitHub profile README updated with pinned projects"
+      ]
+    },
+    {
+      "number": 3,
+      "title": "Machine Learning Engineer",
+      "role_name": "ML Engineer",
+      "start_date": "2027-02-01",
+      "end_date": "2027-03-31",
+      "summary": "Train, fine-tune and honestly evaluate models; thesis model live on Hugging Face; internship applications start.",
+      "skills": [
+        { "main_skill": "Math for ML", "sub_skills": "Vectors and matrices, probability, gradient descent, loss functions" },
+        { "main_skill": "Classical ML", "sub_skills": "scikit-learn, train/val/test splits, cross-validation, feature engineering, regularization" },
+        { "main_skill": "Deep learning", "sub_skills": "PyTorch tensors and training loops, CNN/RNN basics, attention, transformer architecture" },
+        { "main_skill": "NLP with transformers", "sub_skills": "Tokenization, Hugging Face Transformers and Datasets, fine-tuning BERT for classification and NER" },
+        { "main_skill": "Evaluation", "sub_skills": "Precision, recall, F1, confusion matrix, seqeval for NER, error analysis" },
+        { "main_skill": "DSA + English", "sub_skills": "1D dynamic programming, graph mediums, IELTS listening and reading practice" }
+      ],
+      "courses": [
+        { "name": "Machine Learning Specialization (Andrew Ng)", "provider": "Coursera", "url": "https://www.coursera.org/specializations/machine-learning-introduction", "time_slot": "Class-day skill block" },
+        { "name": "Practical Deep Learning for Coders", "provider": "fast.ai", "url": "https://course.fast.ai/", "time_slot": "Off-day course block" },
+        { "name": "LLM Course, chapters 1-4", "provider": "Hugging Face Learn", "url": "https://huggingface.co/learn", "time_slot": "Off-day course block, weeks 5-8" },
+        { "name": "IELTS practice: Cambridge IELTS books + British Council free tests", "provider": "British Council / Cambridge", "url": "", "time_slot": "20 min nightly" }
+      ],
+      "projects": [
+        { "rank": 1, "name": "Bangla PII Detector v1 (thesis model)", "problem_solved": "Bangla data cannot be shared safely without removing personal data; fine-tuned BanglaBERT + regex vs v0 baseline", "stack": "PyTorch, Transformers, BanglaBERT, seqeval, Gradio on HF Spaces" },
+        { "rank": 2, "name": "Bangla Scam SMS Detector", "problem_solved": "Fake bKash-agent, lottery and OTP scams target millions of phone users", "stack": "Fine-tuned small transformer, FastAPI endpoint" },
+        { "rank": 3, "name": "Bangla Hate Speech Classifier (BLP-2025 shared task data)", "problem_solved": "Content moderation for Bangla platforms; public benchmark to compare with published teams", "stack": "Transformers, class-imbalance handling, error analysis" },
+        { "rank": 4, "name": "Dhaka Air Quality Forecaster", "problem_solved": "Next-day AQI forecast for one of the most polluted cities, from public data", "stack": "pandas, scikit-learn, time-series features" }
+      ],
+      "goals": [
+        "160 LeetCode problems total",
+        "Thesis model beats the rules baseline on F1",
+        "Resume v1 (one page, numbers in every bullet) reviewed by a senior",
+        "10+ internship applications sent",
+        "IELTS mock band 6.0+",
+        "5 new LinkedIn connections a week at target companies"
+      ]
+    },
+    {
+      "number": 4,
+      "title": "NLP / LLM Engineer",
+      "role_name": "NLP / LLM Engineer",
+      "start_date": "2027-04-01",
+      "end_date": "2027-05-31",
+      "summary": "Build measured LLM systems and the two headline projects; internship should start in May.",
+      "skills": [
+        { "main_skill": "LLM fundamentals", "sub_skills": "Tokens and context windows, sampling, prompt design, structured JSON output, function calling basics" },
+        { "main_skill": "Retrieval-augmented generation (RAG)", "sub_skills": "Chunking, embeddings, vector DB (Qdrant or pgvector), hybrid search, reranking, citations" },
+        { "main_skill": "LLM evaluation", "sub_skills": "Building eval sets, LLM-as-judge, faithfulness, retrieval recall@k, regression tests on prompts" },
+        { "main_skill": "LLM app engineering", "sub_skills": "Claude/OpenAI and open-model APIs, streaming, caching, cost and latency tracking, guardrails" },
+        { "main_skill": "Cloud + DSA", "sub_skills": "One cloud (AWS or GCP): compute, storage, secrets, container deploy; 200 LeetCode total" }
+      ],
+      "courses": [
+        { "name": "LLM Course, chapters 5 to end", "provider": "Hugging Face Learn", "url": "https://huggingface.co/learn", "time_slot": "Class-day skill block" },
+        { "name": "LLM Zoomcamp (RAG, evaluation, monitoring)", "provider": "DataTalks.Club", "url": "https://datatalksclub.github.io/docs/courses/llm-zoomcamp/", "time_slot": "Off-day course block (self-paced; live cohort from June)" },
+        { "name": "Short courses on RAG and LLM evaluation", "provider": "DeepLearning.AI", "url": "https://www.deeplearning.ai/short-courses/", "time_slot": "Gaps between classes" },
+        { "name": "IELTS writing and speaking lessons", "provider": "IELTS Liz + Cambridge books", "url": "", "time_slot": "20 min nightly, 1 full mock every 2 weeks" }
+      ],
+      "projects": [
+        { "rank": 1, "name": "PII-Safe LLM Gateway (signature project)", "problem_solved": "Companies cannot send customer data to LLMs; redacts Bangla and English PII before the prompt leaves, restores it in the answer", "stack": "FastAPI proxy, thesis PII model, LLM APIs, logs, latency metrics" },
+        { "rank": 2, "name": "Bangla RAG Assistant for official rules", "problem_solved": "People struggle with the NBR tax guide or university regulations; cited answers in Bangla and English with a 100-question eval set", "stack": "Embeddings, Qdrant, reranker, LLM API, eval report" },
+        { "rank": 3, "name": "Bangla LLM Eval Harness", "problem_solved": "Nobody knows which models handle Bangla well; benchmark models on Bangla QA, PII and summarization and publish a leaderboard", "stack": "Python, Hugging Face, LLM APIs, charts" },
+        { "rank": 4, "name": "Resume-Job Matcher for Bangladeshi postings", "problem_solved": "Freshers apply blindly; scores a CV against job descriptions and lists missing skills", "stack": "Embeddings, FastAPI, simple frontend" }
+      ],
+      "goals": [
+        "200 LeetCode problems total",
+        "Signature project demo video under 2 minutes",
+        "Internship started, or 25+ applications sent",
+        "Thesis paper draft complete (target: BLP workshop or another Bangla NLP venue)",
+        "IELTS mock band 6.5+"
+      ]
+    },
+    {
+      "number": 5,
+      "title": "AI Engineer in Production",
+      "role_name": "AI Engineer",
+      "start_date": "2027-06-01",
+      "end_date": "2027-07-31",
+      "summary": "Fine-tune, deploy, monitor and maintain AI systems real people use; internship results, IELTS score, paper submitted.",
+      "skills": [
+        { "main_skill": "Fine-tuning", "sub_skills": "LoRA/QLoRA with PEFT, dataset curation, instruction formatting, before/after evals" },
+        { "main_skill": "AI agents", "sub_skills": "Tool calling, planning loops, memory, human handoff, agent evaluation" },
+        { "main_skill": "MLOps", "sub_skills": "Experiment tracking (MLflow or W&B), model registry, CI/CD for models, monitoring and drift" },
+        { "main_skill": "Model serving", "sub_skills": "Batching, quantization, vLLM basics, GPU cost estimates" },
+        { "main_skill": "System design + English", "sub_skills": "URL shortener, chat app, RAG at scale; IELTS exam" }
+      ],
+      "courses": [
+        { "name": "AI Agents Course", "provider": "Hugging Face Learn", "url": "https://huggingface.co/learn", "time_slot": "Off-day course block, June" },
+        { "name": "MLOps Zoomcamp", "provider": "DataTalks.Club", "url": "https://github.com/DataTalksClub/mlops-zoomcamp", "time_slot": "Off-day course block, July" },
+        { "name": "Fine-tuning notebooks (LoRA/QLoRA)", "provider": "Unsloth docs + Hugging Face PEFT docs", "url": "https://huggingface.co/docs/peft", "time_slot": "Class-day skill block" },
+        { "name": "System Design Primer", "provider": "GitHub (donnemartin)", "url": "https://github.com/donnemartin/system-design-primer", "time_slot": "Gaps between classes" }
+      ],
+      "projects": [
+        { "rank": 1, "name": "Bangla Customer-Support Agent for a real SME", "problem_solved": "Small sellers drown in repeated Messenger/WhatsApp questions; agent answers FAQs, checks orders via a tool, hands off to a human", "stack": "Tool calling, FastAPI, LLM API, usage logs" },
+        { "rank": 2, "name": "MLOps pipeline for the PII model", "problem_solved": "Models rot when data changes; automatic retraining, registry, CI deploy and drift alerts", "stack": "MLflow, GitHub Actions, Docker, monitoring dashboard" },
+        { "rank": 3, "name": "Fine-tune vs RAG study (blog post)", "problem_solved": "Teams waste money choosing wrong; compare fine-tuning and RAG on cost, latency and accuracy for a Bangla task", "stack": "QLoRA, PEFT, your RAG system, charts" },
+        { "rank": 4, "name": "Bangla Receipt and Invoice Extractor", "problem_solved": "SMEs keep paper receipts; turn photos into a spreadsheet", "stack": "Vision-language model, OCR, structured output, Streamlit" }
+      ],
+      "goals": [
+        "IELTS taken: 7.0 overall, no band below 6.5",
+        "Thesis paper submitted",
+        "Internship: 2 results with numbers written down for the resume",
+        "One open-source PR merged",
+        "2 system-design mock sessions done"
+      ]
+    },
+    {
+      "number": 6,
+      "title": "Job-Ready AI/ML Engineer",
+      "role_name": "AI/ML Engineer",
+      "start_date": "2027-08-01",
+      "end_date": "2027-10-31",
+      "summary": "Stop building new systems; interview well, apply at volume through referrals, accept an offer.",
+      "skills": [
+        { "main_skill": "Interview DSA", "sub_skills": "Timed mediums in 30 minutes, talking through your approach, 75 core patterns" },
+        { "main_skill": "ML and LLM depth", "sub_skills": "Explain transformers, fine-tuning vs RAG, eval design, bias and variance, every project end to end" },
+        { "main_skill": "System design for AI", "sub_skills": "Design a RAG service, a moderation pipeline, latency and cost trade-offs" },
+        { "main_skill": "CS fundamentals", "sub_skills": "OS (processes, threads, memory), networking, DBMS revision" },
+        { "main_skill": "Communication", "sub_skills": "2-minute project pitches, 10 STAR stories, salary negotiation" }
+      ],
+      "courses": [
+        { "name": "Tech Interview Handbook", "provider": "techinterviewhandbook.org", "url": "https://www.techinterviewhandbook.org/", "time_slot": "Off-day course block" },
+        { "name": "NeetCode 150 full revision", "provider": "neetcode.io", "url": "https://neetcode.io/roadmap", "time_slot": "Class-day DSA hour" },
+        { "name": "Machine Learning Interviews book", "provider": "Chip Huyen (free online)", "url": "https://huyenchip.com/ml-interviews-book/", "time_slot": "Class-day skill block" }
+      ],
+      "projects": [
+        { "rank": 1, "name": "Portfolio site with case studies", "problem_solved": "Recruiters spend under a minute per candidate; one page per headline project: problem, approach, numbers", "stack": "Next.js on Vercel" },
+        { "rank": 2, "name": "Interview prep kit repo", "problem_solved": "Revising beats re-learning; 75 patterns, 20 system-design notes, 10 STAR stories in one place", "stack": "Markdown + code" },
+        { "rank": 3, "name": "Bangla NLP shared-task entry (BLP or similar, if open)", "problem_solved": "Public leaderboard placement and a second paper", "stack": "Phase 3-4 pipelines" },
+        { "rank": 4, "name": "Open-source contribution sprint", "problem_solved": "Proves you can work in someone else's codebase", "stack": "Hugging Face libraries or a Bangla NLP toolkit" }
+      ],
+      "goals": [
+        "Resume v3 final, one page, every bullet has a number",
+        "GitHub pinned: PII Gateway, RAG Assistant, PII Detector, SME Agent, ChhayaPath",
+        "60+ applications tracked (company, date, stage, contact)",
+        "3+ referrals received",
+        "2 mock interviews a week",
+        "Offer accepted",
+        "Grad school shortlist made (deadlines start Dec 2027)"
+      ]
+    }
+  ],
+  "schedule": {
+    "class_days": ["Sun", "Mon", "Tue", "Wed"],
+    "off_days": ["Thu", "Fri", "Sat"],
+    "class_day_blocks": [
+      { "start": "06:30", "end": "07:15", "label": "Wake, workout or walk, IELTS vocab" },
+      { "start": "08:00", "end": "17:00", "label": "University" },
+      { "start": "19:00", "end": "20:00", "label": "DSA" },
+      { "start": "20:00", "end": "21:30", "label": "Skill block" },
+      { "start": "21:30", "end": "22:30", "label": "Dinner + hobby (gaming max 45 min)" },
+      { "start": "22:30", "end": "23:00", "label": "IELTS 20 min + plan tomorrow" }
+    ],
+    "off_day_blocks": [
+      { "start": "07:00", "end": "08:00", "label": "Gym or football" },
+      { "start": "08:30", "end": "12:30", "label": "Deep work 1: project build" },
+      { "start": "14:00", "end": "15:30", "label": "Course" },
+      { "start": "15:30", "end": "17:00", "label": "Deep work 2: thesis or project" },
+      { "start": "17:00", "end": "18:00", "label": "DSA (contest on one off day)" }
+    ]
+  }
+}
