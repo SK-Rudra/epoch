@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { ProgressBar } from "@/components/progress-bar";
 import { phaseProgress, type Status } from "@/lib/progress";
 import { requireUser } from "@/lib/supabase/server";
 import { cycleStatus, toggleGoal } from "./actions";
@@ -79,15 +80,8 @@ async function Phase({ params }: Pick<PageProps<"/phases/[number]">, "params">) 
         <h1 className="text-2xl font-bold">{phase.title}</h1>
         {phase.role_name && <p className="text-muted">{phase.role_name}</p>}
         {phase.summary && <p>{phase.summary}</p>}
-        <div
-          role="progressbar"
-          aria-label="Phase progress"
-          aria-valuenow={progress}
-          aria-valuemin={0}
-          aria-valuemax={100}
-          className="mt-2 h-3 overflow-hidden rounded-full bg-line"
-        >
-          <div className="h-full bg-emerald-500 transition-all" style={{ width: `${progress}%` }} />
+        <div className="mt-2">
+          <ProgressBar label="Phase progress" value={progress} />
         </div>
         <p className="text-sm text-muted">{progress}% complete</p>
       </header>
