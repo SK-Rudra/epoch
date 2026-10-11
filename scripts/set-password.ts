@@ -50,7 +50,7 @@ async function main() {
   if (!user) throw new Error(`No account for ${env.ALLOWED_EMAIL}. Run \`npm run seed\` first.`);
 
   const password = await askHidden(`New password for ${env.ALLOWED_EMAIL}: `);
-  if (password.length < 12) throw new Error("Use at least 12 characters.");
+  if (password.length < 5) throw new Error("Use at least 5 characters.");
   if ((await askHidden("Type it again: ")) !== password) throw new Error("The two passwords don't match.");
 
   const { error } = await db.auth.admin.updateUserById(user.id, { password });

@@ -28,7 +28,7 @@ The seed also creates your (only) login account. Re-running it is safe: it updat
 ```bash
 npm run set-password
 ```
-Type a password (12+ characters) when asked; it isn't shown or saved anywhere on your computer. Run it again any time to change the password.
+Type a password (5+ characters) when asked; it isn't shown or saved anywhere on your computer. Run it again any time to change the password.
 
 ### 5. Start
 ```bash
