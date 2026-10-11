@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { duration, minutes } from "./time";
 import { dhakaTime } from "./dates";
 import { dayPlan, type Schedule } from "./schedule";
 
@@ -43,5 +44,14 @@ describe("dhakaTime", () => {
   it("is 24-hour HH:MM in Dhaka (UTC+6)", () => {
     expect(dhakaTime(new Date("2026-10-14T18:05:00Z"))).toBe("00:05");
     expect(dhakaTime(new Date("2026-10-14T13:30:00Z"))).toBe("19:30");
+  });
+});
+
+describe("time helpers", () => {
+  it("converts HH:MM to minutes and formats block lengths", () => {
+    expect(minutes("14:02")).toBe(842);
+    expect(duration("09:00", "10:30")).toBe("1h 30m");
+    expect(duration("09:00", "11:00")).toBe("2h");
+    expect(duration("09:00", "09:45")).toBe("45m");
   });
 });

@@ -1,4 +1,14 @@
-export function ProgressBar({ label, value }: { label: string; value: number }) {
+"use client";
+
+import { motion } from "motion/react";
+
+/** Thin bar: grid track, plot fill that grows from 0 the first time it's shown. */
+export function ProgressBar({ label, value, delay = 0, className = "h-[3px]" }: {
+  label: string;
+  value: number;
+  delay?: number;
+  className?: string;
+}) {
   return (
     <div
       role="progressbar"
@@ -6,9 +16,15 @@ export function ProgressBar({ label, value }: { label: string; value: number }) 
       aria-valuenow={value}
       aria-valuemin={0}
       aria-valuemax={100}
-      className="h-3 overflow-hidden rounded-full bg-line"
+      className={`overflow-hidden rounded-full bg-grid ${className}`}
     >
-      <div className="h-full bg-emerald-500 transition-all" style={{ width: `${Math.min(value, 100)}%` }} />
+      {/* scaleX instead of width: animates on the GPU and never moves anything around it. */}
+      <motion.div
+        className="h-full origin-left bg-plot"
+        initial={{ scaleX: 0 }}
+        animate={{ scaleX: Math.min(value, 100) / 100 }}
+        transition={{ duration: 0.4, delay }}
+      />
     </div>
   );
 }

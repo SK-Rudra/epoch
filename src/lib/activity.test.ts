@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cumulativeLeetcode, heatLevel, weeklyHours, yearHeatmap } from "./activity";
+import { cumulativeLeetcode, heatLevel, niceTicks, weeklyHours, yearHeatmap } from "./activity";
 
 const today = "2026-10-14"; // Wednesday; its week starts Sunday 2026-10-11
 const log = (date: string, study_hours: number | string = 0, leetcode_solved = 0) => ({ date, study_hours, leetcode_solved });
@@ -56,5 +56,18 @@ describe("cumulativeLeetcode", () => {
       { date: "2026-10-13", total: 5 },
       { date: "2026-10-14", total: 5 },
     ]);
+  });
+});
+
+describe("niceTicks", () => {
+  it("uses round 1/2/5 steps from 0 up to at least the max", () => {
+    expect(niceTicks(200)).toEqual([0, 50, 100, 150, 200]);
+    expect(niceTicks(13.5)).toEqual([0, 5, 10, 15]);
+    expect(niceTicks(3)).toEqual([0, 1, 2, 3]);
+    expect(niceTicks(0.7)).toEqual([0, 0.2, 0.4, 0.6, 0.8]);
+  });
+
+  it("still draws an axis when there's no data", () => {
+    expect(niceTicks(0)).toEqual([0, 1]);
   });
 });
