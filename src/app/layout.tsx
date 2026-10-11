@@ -29,6 +29,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <header className="flex items-center gap-4 border-b border-line px-4 py-3">
           <Link href="/" className="font-bold">Epoch</Link>
           <Link href="/activity" className="text-sm text-muted">Activity</Link>
+          <Link href="/schedule" className="text-sm text-muted">Schedule</Link>
+          <Link href="/reviews" className="text-sm text-muted">Review</Link>
         </header>
         {children}
       </body>
