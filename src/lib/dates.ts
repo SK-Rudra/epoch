@@ -24,3 +24,15 @@ export function addDays(date: string, days: number): string {
 export function weekStart(date: string): string {
   return addDays(date, -new Date(`${date}T00:00:00Z`).getUTCDay());
 }
+
+const dhakaTimeFormat = new Intl.DateTimeFormat("en-GB", {
+  timeZone: "Asia/Dhaka",
+  hour: "2-digit",
+  minute: "2-digit",
+  hourCycle: "h23",
+});
+
+/** Current time in Dhaka as "HH:MM" (24-hour), comparable with schedule block times. */
+export function dhakaTime(now: Date = new Date()): string {
+  return dhakaTimeFormat.format(now);
+}
