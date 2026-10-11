@@ -48,5 +48,6 @@ export async function proxy(request: NextRequest) {
 
 export const config = {
   // Static assets, the PWA manifest and robots.txt skip the sign-in check: browsers and crawlers fetch them signed out.
-  matcher: ["/((?!_next/static|_next/image|favicon.ico|manifest.webmanifest|robots.txt|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico)$).*)"],
+  // /api/cron/* skips it too: Vercel Cron has no session; those routes check CRON_SECRET themselves.
+  matcher: ["/((?!api/cron/|_next/static|_next/image|favicon.ico|manifest.webmanifest|robots.txt|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico)$).*)"],
 };

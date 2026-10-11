@@ -1,11 +1,11 @@
 import { describe, expect, it } from "vitest";
-import { cumulativeLeetcode, heatLevel, niceTicks, weeklyHours, yearHeatmap } from "./activity";
+import { heatLevel, leetcodeSeries, niceTicks, weeklyHours, yearHeatmap } from "./activity";
 
 const today = "2026-10-14"; // Wednesday; its week starts Sunday 2026-10-11
-const log = (date: string, study_hours: number | string = 0, leetcode_solved = 0) => ({ date, study_hours, leetcode_solved });
+const log = (date: string, study_hours: number | string = 0) => ({ date, study_hours });
 
 describe("yearHeatmap", () => {
-  const grid = yearHeatmap([log("2026-10-12", "2.5"), log("2025-10-12", 1)], today);
+  const grid = yearHeatmap({ "2026-10-12": 2.5, "2025-10-12": 1 }, today);
 
   it("is 53 Sunday-start weeks ending with today's week", () => {
     expect(grid).toHaveLength(53);
@@ -13,18 +13,22 @@ describe("yearHeatmap", () => {
     expect(grid[52][0]?.date).toBe("2026-10-11");
   });
 
-  it("fills hours from logs, 0 for missing days, null after today", () => {
-    expect(grid[0][0]?.hours).toBe(1);
-    expect(grid[52][1]).toEqual({ date: "2026-10-12", hours: 2.5 });
-    expect(grid[52][2]?.hours).toBe(0);
-    expect(grid[52][3]).toEqual({ date: today, hours: 0 });
+  it("fills values by date, 0 for missing days, null after today", () => {
+    expect(grid[0][0]?.value).toBe(1);
+    expect(grid[52][1]).toEqual({ date: "2026-10-12", value: 2.5 });
+    expect(grid[52][2]?.value).toBe(0);
+    expect(grid[52][3]).toEqual({ date: today, value: 0 });
     expect(grid[52][4]).toBeNull();
   });
 });
 
 describe("heatLevel", () => {
   it("buckets hours into 5 steps", () => {
-    expect([0, 0.5, 1, 1.5, 2, 3, 4, 4.5, 12].map(heatLevel)).toEqual([0, 1, 1, 2, 2, 3, 3, 4, 4]);
+    expect([0, 0.5, 1, 1.5, 2, 3, 4, 4.5, 12].map((h) => heatLevel(h))).toEqual([0, 1, 1, 2, 2, 3, 3, 4, 4]);
+  });
+
+  it("takes other steps (LeetCode submissions)", () => {
+    expect([0, 1, 2, 3, 4, 6, 7].map((n) => heatLevel(n, [1, 3, 6]))).toEqual([0, 1, 2, 2, 3, 3, 4]);
   });
 });
 
@@ -44,13 +48,13 @@ describe("weeklyHours", () => {
   });
 });
 
-describe("cumulativeLeetcode", () => {
-  it("is just today at 0 with no logs", () => {
-    expect(cumulativeLeetcode([], today)).toEqual([{ date: today, total: 0 }]);
+describe("leetcodeSeries", () => {
+  it("is just today at 0 with no snapshots", () => {
+    expect(leetcodeSeries([], today)).toEqual([{ date: today, total: 0 }]);
   });
 
-  it("runs a daily total from the first log to today, carrying across gaps", () => {
-    expect(cumulativeLeetcode([log("2026-10-13", 0, 2), log("2026-10-11", 0, 3)], today)).toEqual([
+  it("runs from the first snapshot to today, carrying the last total across days without a sync", () => {
+    expect(leetcodeSeries([{ date: "2026-10-13", total: 5 }, { date: "2026-10-11", total: 3 }], today)).toEqual([
       { date: "2026-10-11", total: 3 },
       { date: "2026-10-12", total: 3 },
       { date: "2026-10-13", total: 5 },

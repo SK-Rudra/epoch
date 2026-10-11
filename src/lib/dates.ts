@@ -41,3 +41,12 @@ const dhakaTimeFormat = new Intl.DateTimeFormat("en-GB", {
 export function dhakaTime(now: Date = new Date()): string {
   return dhakaTimeFormat.format(now);
 }
+
+/** "just now", "5 min ago", "3 h ago", "2 days ago". */
+export function timeAgo(iso: string, now: Date = new Date()): string {
+  const min = Math.floor((now.getTime() - Date.parse(iso)) / 60_000);
+  if (min < 1) return "just now";
+  if (min < 60) return `${min} min ago`;
+  if (min < 48 * 60) return `${Math.floor(min / 60)} h ago`;
+  return `${Math.floor(min / 1440)} days ago`;
+}

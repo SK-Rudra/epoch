@@ -8,7 +8,7 @@ Private, single-user personal development tracker. Next.js 16 (App Router) + Sup
 
 ### 1. Create the Supabase project (one time)
 1. Create a free project at <https://supabase.com/dashboard>.
-2. **SQL Editor** → paste all of `supabase/migrations/0001_init.sql` → Run. Then do the same with `0002_schedule.sql`.
+2. **SQL Editor** → paste all of `supabase/migrations/0001_init.sql` → Run. Then do the same with `0002_schedule.sql` and `0003_leetcode.sql`.
 3. **Authentication → Sign In / Providers → Email**: keep Email enabled (password sign-in lives there), and turn **off** "Allow new users to sign up".
 
 ### 2. Environment
@@ -49,4 +49,4 @@ Open <http://localhost:3000> → you're sent to `/login` → sign in with your e
 - **Server-side allowlist**: the login server action rejects any email that isn't `ALLOWED_EMAIL`, and disabled sign-ups mean no other account can exist. Every failure shows the same "Wrong email or password." message.
 - **`src/proxy.ts`** redirects every page to `/login` unless signed in as the allowed email; pages call `requireUser()` again as a second check.
 - **RLS** on every table: rows are visible/editable only when `user_id = auth.uid()`.
-- The browser only ever gets the anon key. `SUPABASE_SERVICE_ROLE_KEY` is used only by `scripts/seed.ts` and `scripts/set-password.ts` — never add it to Vercel.
+- The browser only ever gets the anon key. `SUPABASE_SERVICE_ROLE_KEY` is used by `scripts/seed.ts`, `scripts/set-password.ts` and the LeetCode cron (`src/lib/supabase/admin.ts`, which imports `server-only` so a Client Component can't pull it in). The build fails if any `NEXT_PUBLIC_` variable holds it.

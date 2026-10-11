@@ -4,8 +4,10 @@ import { LogOut } from "lucide-react";
 import { CountUp, Reveal, RevealItem } from "@/components/motion";
 import { ProgressBar } from "@/components/progress-bar";
 import { RunClock, RunTimeline, Sparkline, UptimeStrip } from "@/components/run-viz";
-import { cumulativeLeetcode } from "@/lib/activity";
-import { dhakaDate } from "@/lib/dates";
+import { LeetcodeWarning } from "@/components/leetcode-status";
+import { leetcodeSeries } from "@/lib/activity";
+import { dhakaDate, timeAgo } from "@/lib/dates";
+import { leetcodeStreak } from "@/lib/leetcode";
 import { currentPhase, overallProgress, phaseProgress, type Status } from "@/lib/progress";
 import { logLine, recentLogs, runDay, timeline, uptime } from "@/lib/run";
 import { studyStreak } from "@/lib/streak";
@@ -13,6 +15,7 @@ import { requireUser } from "@/lib/supabase/server";
 import { targets } from "../../../data/roadmap-seed.json";
 import { signOut } from "../login/actions";
 import { QuickLogForm } from "./quick-log-form";
+import { SyncButton } from "./sync-button";
 
 export const metadata = { title: "Dashboard" };
 
@@ -42,14 +45,21 @@ async function Dashboard() {
   const { supabase, user } = await requireUser();
   const today = dhakaDate();
 
-  // Both queries run at the same time.
-  const [phasesRes, logsRes] = await Promise.all([
+  // All queries run at the same time.
+  const [phasesRes, logsRes, seriesRes, latestRes] = await Promise.all([
     supabase
       .from("phases")
       .select("number, title, role_name, start_date, end_date, skills(status), courses(status), projects(status), goals(done)")
       .returns<PhaseRow[]>(),
     // ponytail: loads every daily log (Supabase caps at 1000 rows ≈ 2.7 years); switch to a SQL sum if it ever gets there.
     supabase.from("daily_logs").select("date, study_hours, leetcode_solved, ielts_minutes, workout, note, updated_at"),
+    supabase.from("leetcode_snapshots").select("date, total").order("date"),
+    supabase
+      .from("leetcode_snapshots")
+      .select("total, easy, medium, hard, calendar, updated_at")
+      .order("date", { ascending: false })
+      .limit(1)
+      .maybeSingle(),
   ]);
   if (phasesRes.error) throw new Error(phasesRes.error.message);
   if (logsRes.error) throw new Error(logsRes.error.message);
@@ -62,7 +72,10 @@ async function Dashboard() {
   const progress = phaseProgress(phase);
   const run = runDay(phases, today);
   const line = timeline(phases, today);
-  const leetcode = logs.reduce((sum, l) => sum + l.leetcode_solved, 0);
+  // LeetCode numbers come from the last saved sync. If they can't be read, the page still renders (with a warning).
+  const lcUnreadable = !!(seriesRes.error || latestRes.error);
+  const lc = latestRes.data;
+  const leetcode = lc?.total ?? 0;
   const streak = studyStreak(logs, today);
   const overall = overallProgress(phases);
   const todayLog = logs.find((l) => l.date === today);
@@ -114,12 +127,23 @@ async function Dashboard() {
                   label="LeetCode"
                   value={<><CountUp value={leetcode} delay={0.05} /><span className="text-graphite"> / {targets.leetcode_total}</span></>}
                 >
-                  <Sparkline points={cumulativeLeetcode(logs, today).slice(-30).map((p) => p.total)} target={targets.leetcode_total} />
+                  <Sparkline points={leetcodeSeries(seriesRes.data ?? [], today).slice(-30).map((p) => p.total)} target={targets.leetcode_total} />
                 </Metric>
                 <Metric label="Study uptime" value={<><CountUp value={streak} delay={0.1} />d</>}>
                   <UptimeStrip days={uptime(logs, today)} />
                 </Metric>
               </dl>
+              <div className="flex flex-col gap-1">
+                <div className="flex items-center justify-between gap-3 font-mono text-xs text-graphite">
+                  <p>
+                    {lc
+                      ? <>leetcode · easy {lc.easy} · med {lc.medium} · hard {lc.hard} · streak {leetcodeStreak(lc.calendar)}d · synced {timeAgo(lc.updated_at)}</>
+                      : "leetcode · not synced yet"}
+                  </p>
+                  <SyncButton />
+                </div>
+                <LeetcodeWarning syncedAt={lc?.updated_at} unreadable={lcUnreadable} />
+              </div>
             </RevealItem>
 
             <RevealItem as="section" className="flex flex-col gap-4">

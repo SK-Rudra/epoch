@@ -1,28 +1,28 @@
 import { addDays, weekStart } from "./dates";
 
-type Log = { date: string; study_hours: number | string; leetcode_solved: number };
-export type HeatDay = { date: string; hours: number } | null;
+type Log = { date: string; study_hours: number | string };
+export type HeatDay = { date: string; value: number } | null;
 
 const round2 = (n: number) => Math.round(n * 100) / 100;
 
 /**
  * 53 columns of Sunday→Saturday weeks, ending with today's week (like GitHub).
+ * values maps "YYYY-MM-DD" to that day's number (study hours, LeetCode submissions); missing days are 0.
  * Days after today are null so the last column can be partly empty.
  */
-export function yearHeatmap(logs: Log[], today: string): HeatDay[][] {
-  const hours = new Map(logs.map((l) => [l.date, Number(l.study_hours)]));
+export function yearHeatmap(values: Record<string, number>, today: string): HeatDay[][] {
   const first = addDays(weekStart(today), -52 * 7);
   return Array.from({ length: 53 }, (_, w) =>
     Array.from({ length: 7 }, (_, d) => {
       const date = addDays(first, w * 7 + d);
-      return date > today ? null : { date, hours: hours.get(date) ?? 0 };
+      return date > today ? null : { date, value: values[date] ?? 0 };
     }),
   );
 }
 
-/** Colour step 0–4 for a day's study hours. */
-export function heatLevel(hours: number): 0 | 1 | 2 | 3 | 4 {
-  return hours <= 0 ? 0 : hours <= 1 ? 1 : hours <= 2 ? 2 : hours <= 4 ? 3 : 4;
+/** Colour step 0–4 for a day's value; steps are the top of levels 1–3 (default: study hours). */
+export function heatLevel(value: number, [a, b, c]: readonly number[] = [1, 2, 4]): 0 | 1 | 2 | 3 | 4 {
+  return value <= 0 ? 0 : value <= a ? 1 : value <= b ? 2 : value <= c ? 3 : 4;
 }
 
 /** Total study hours for each of the last `weeks` Sunday-start weeks, oldest first. */
@@ -39,14 +39,14 @@ export function weeklyHours(logs: Log[], today: string, weeks = 12): { week: str
   });
 }
 
-/** Running LeetCode total for every day from the first log up to today. */
-export function cumulativeLeetcode(logs: Log[], today: string): { date: string; total: number }[] {
-  const solved = new Map(logs.map((l) => [l.date, l.leetcode_solved]));
-  const start = logs.reduce((min, l) => (l.date < min ? l.date : min), today);
+/** LeetCode total for every day from the first snapshot up to today; days without a sync keep the last known total. */
+export function leetcodeSeries(snapshots: { date: string; total: number }[], today: string): { date: string; total: number }[] {
+  const totals = new Map(snapshots.map((s) => [s.date, s.total]));
+  const start = snapshots.reduce((min, s) => (s.date < min ? s.date : min), today);
   const points = [];
   let total = 0;
   for (let date = start; date <= today; date = addDays(date, 1)) {
-    total += solved.get(date) ?? 0;
+    total = totals.get(date) ?? total;
     points.push({ date, total });
   }
   return points;
