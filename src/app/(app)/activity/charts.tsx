@@ -62,9 +62,27 @@ const axisText = "font-mono text-[11px] text-graphite";
 // ---------- Heatmap: one cell per day, a column per week ----------
 
 const levelFill = ["fill-grid", "fill-plot/25", "fill-plot/45", "fill-plot/70", "fill-plot"];
-const levelLabel = ["0", "≤1h", "≤2h", "≤4h", "4h+"]; // matches heatLevel's thresholds
 
-export function Heatmap({ grid }: { grid: HeatDay[][] }) {
+// What a heatmap counts. steps = top of colour levels 1–3, legend matches them.
+const HEAT = {
+  study: {
+    steps: [1, 2, 4],
+    legend: ["0", "≤1h", "≤2h", "≤4h", "4h+"],
+    tip: (v: number) => `${v} h`,
+    say: (v: number) => `${v} hours`,
+    label: "Study hours per day for the last 12 months.",
+  },
+  leetcode: {
+    steps: [1, 3, 6],
+    legend: ["0", "1", "2–3", "4–6", "7+"],
+    tip: (v: number) => `${v} sub${v === 1 ? "" : "s"}`,
+    say: (v: number) => `${v} LeetCode submissions`,
+    label: "LeetCode submissions per day for the last 12 months.",
+  },
+};
+
+export function Heatmap({ grid, kind = "study" }: { grid: HeatDay[][]; kind?: keyof typeof HEAT }) {
+  const heat = HEAT[kind];
   const days = grid.flat(); // index = week * 7 + weekday
   const last = days.findLastIndex(Boolean); // today
   const [i, setI, cursor] = useCursor(last + 1, { ArrowLeft: -7, ArrowRight: 7, ArrowUp: -1, ArrowDown: 1 });
@@ -95,7 +113,7 @@ export function Heatmap({ grid }: { grid: HeatDay[][] }) {
         <div
           {...cursor}
           role="group"
-          aria-label="Study hours per day for the last 12 months. Use the arrow keys to move between days."
+          aria-label={`${heat.label} Use the arrow keys to move between days.`}
           onPointerMove={(e) => {
             const { fx, fy } = fraction(e);
             const k = Math.floor(fx * grid.length) * 7 + Math.floor(fy * 7);
@@ -107,7 +125,7 @@ export function Heatmap({ grid }: { grid: HeatDay[][] }) {
               // Columns fade in one week after another (~320ms for the whole year).
               <motion.g key={week[0]!.date} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.15, delay: w * 0.006 }}>
                 {week.map((day, d) =>
-                  day && <rect key={day.date} x={w * step + 1} y={d * step + 1} width={10} height={10} rx={2} className={levelFill[heatLevel(day.hours)]} />,
+                  day && <rect key={day.date} x={w * step + 1} y={d * step + 1} width={10} height={10} rx={2} className={levelFill[heatLevel(day.value, heat.steps)]} />,
                 )}
               </motion.g>
             ))}
@@ -117,7 +135,7 @@ export function Heatmap({ grid }: { grid: HeatDay[][] }) {
           </svg>
           {cur && (
             <Tip x={((Math.floor(i! / 7) + 0.5) / grid.length) * 100} y={((i! % 7) / 7) * 100}>
-              {shortDate(cur.date, { weekday: "short", month: "short", day: "numeric" })} · {cur.hours} h
+              {shortDate(cur.date, { weekday: "short", month: "short", day: "numeric" })} · {heat.tip(cur.value)}
             </Tip>
           )}
         </div>
@@ -126,11 +144,11 @@ export function Heatmap({ grid }: { grid: HeatDay[][] }) {
         {levelFill.map((fill, k) => (
           <span key={fill} className="inline-flex items-center gap-1">
             <svg viewBox="0 0 10 10" className="size-2.5"><rect width={10} height={10} rx={2} className={fill} /></svg>
-            {levelLabel[k]}
+            {heat.legend[k]}
           </span>
         ))}
       </div>
-      <Announce text={cur ? `${shortDate(cur.date, { weekday: "long", month: "long", day: "numeric" })}: ${cur.hours} hours` : ""} />
+      <Announce text={cur ? `${shortDate(cur.date, { weekday: "long", month: "long", day: "numeric" })}: ${heat.say(cur.value)}` : ""} />
     </div>
   );
 }

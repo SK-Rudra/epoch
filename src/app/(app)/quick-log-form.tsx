@@ -29,8 +29,9 @@ export function QuickLogForm({ today, onSaved }: { today?: Log | null; onSaved?:
           defaultValue={Number(today?.study_hours ?? 0)} className={numberInput} />
       </Field>
       <Field label="LeetCode solved">
-        <input name="leetcode_solved" type="number" inputMode="numeric" min={0} max={100}
+        <input name="leetcode_solved" type="number" inputMode="numeric" min={0} max={1000}
           defaultValue={today?.leetcode_solved ?? 0} className={numberInput} />
+        <input type="hidden" name="leetcode_loaded" value={today?.leetcode_solved ?? 0} />
       </Field>
       <Field label="IELTS minutes">
         <input name="ielts_minutes" type="number" inputMode="numeric" min={0} max={1440}
