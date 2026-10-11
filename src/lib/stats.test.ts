@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { addDays, dhakaDate, weekStart } from "./dates";
-import { currentPhase, overallProgress, phaseProgress, type PhaseItems } from "./progress";
+import { currentPhase, nextStatus, overallProgress, phaseProgress, type PhaseItems } from "./progress";
 import { studyStreak } from "./streak";
 
 describe("dates (Asia/Dhaka, UTC+6)", () => {
@@ -111,5 +111,13 @@ describe("studyStreak", () => {
 
   it("works across a month boundary and with numeric strings from Postgres", () => {
     expect(studyStreak([log("2026-09-30", "1.50"), log("2026-10-01", "2")], "2026-10-01")).toBe(2);
+  });
+});
+
+describe("nextStatus", () => {
+  it("cycles through all three statuses and wraps around", () => {
+    expect(nextStatus("not_started")).toBe("in_progress");
+    expect(nextStatus("in_progress")).toBe("done");
+    expect(nextStatus("done")).toBe("not_started");
   });
 });
